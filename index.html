@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator of transactions for the alienation of real estate</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <form class="form" action="#">
+        <div class="form-group property-field">
+            <h2>Do you own entire of the property?</h2>
+            <select name="own_select" id="own_select" class="form-select" aria-label="Default select example">
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+            </select>
+        </div>
+
+        <div class="own_no">
+            <div class="form-group contract-field">
+                <h2>Type of contract:</h2>
+                <select name="contract_select" id="contract_select" class="form-select"
+                    aria-label="Default select example" class="contract_select" required>
+                    <option value="1">Purchase and Sale</option>
+                    <option value="2">Donation</option>
+                </select>
+            </div>
+            <div class="form-group cadastralValue-field">
+                Indicate de Cadastral value of share of the property:
+                <input required id="cadastral_value" type="number" step="1000" name="cadastral_value" class="form-control"
+                    placeholder="Cadastral value">
+            </div>
+            <div class="form-group alienationValue-field">
+                Indicate the value of the SHARE of the property for which it is alienated:
+                <input required id="alienation_value" type="number" step="1000" name="alienation_value" class="form-control"
+                    placeholder="Alienation value">
+            </div>
+        </div>
+
+        <div class="own_yes">
+            <div class="form-group type-field">
+                <h2>Type of property:</h2>
+                <div class="field">
+                    <label for="land">Flat</label>
+                    <input type="number" name="property_type" min="0" value="0" id="flat">
+                    <label for="land">Non-residential premises</label>
+                    <input type="number" name="property_type" min="0" value="0" id="non-residential-premises">
+                    <label for="land">Land plot</label>
+                    <input type="number" name="property_type" min="0" value="0" id="land-plot">
+                    <label for="land">House</label>
+                    <input type="number" name="property_type" min="0" value="0" id="House">
+                    <label for="land">Non-residential building</label>
+                    <input type="number" name="property_type" min="0" value="0" id="non-residential-building">
+                </div>
+            </div>
+
+            <div class="form-group">
+                Indicate de Cadastral value of share of the property:
+                <input min="0" id="cadastral_value_2" type="number" step="1000" name="cadastral_value_2"
+                    class="form-control" placeholder="">
+            </div>
+
+            <div class="form-group">
+                Indicate the value of the property for which it is being sold
+                <input min="0" id="beingSold_value" type="number" step="1000" name="beingSold_value"
+                    class="form-control" placeholder="">
+            </div>
+            <div class="form-group">
+                Are the parties to the contract relatives?
+                <select name="relatives_select" id="relatives_select" class="form-select"
+                    aria-label="Default select example">
+                    <option value="1">Yes</option>
+                    <option value="2">No</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-grop">
+            <button type="button" id="Calculate" class="btn btn-primary">Calculate</button>
+        </div>
+
+        <div class="form-group">
+            <label for="buyer_married">The buyer is married?</label>
+            <input type="checkbox" name="buyer_married" id="buyer_married">
+            <label for="sellerAcquired_property">Donor/seller acquired property on a reimbursable basis while married?</label>
+            <input type="checkbox" name="sellerAcquired_property" id="sellerAcquired_property">
+            <br>
+            <br>
+            Settlement through a notary's deposit account: 2,600 rubles are added.
+            <br>
+            Electronic registration in Rosreestr: <br>
+            Notary services - free of charge <br>
+            <br>
+            State duty to Rosreestr: 2000 rubles are added. for each object <br>
+            <br>
+            The cost of certifying the equivalence of extracts from the USRN on paper with electronic extracts received by a notary after registration
+Added 540 rubles. for each object
+        </div>
+    </form>
+
+    <script type="text/javascript">
+
+        const own_select = document.getElementById('own_select');
+        const own_option = own_select.options[own_select.selectedIndex];
+        const contract_select = document.getElementById('contract_select');
+        const cadastral_value = document.getElementById('cadastral_value');
+        const cadastral_value_2 = document.getElementById('cadastral_value_2');
+        const beingSold_value = document.getElementById('beingSold_value');
+        const alienation_value = document.getElementById('alienation_value');
+        const calc_button = document.getElementById('Calculate');
+        const own_no = document.querySelector('.own_no');
+        const own_yes = document.querySelector('.own_yes');
+        const flat = document.getElementById('flat');
+        const non_residential_premises = document.getElementById('non-residential-premises');
+        const land_plot = document.getElementById('land-plot');
+        const house = document.getElementById('House');
+        const non_residential_building = document.getElementById('non-residential-building');
+        const relatives_select = document.getElementById('relatives_select');
+        const buyer_married = document.getElementById('buyer_married');
+        const sellerAcquired_property = document.getElementById('sellerAcquired_property');
+
+
+        own_select.addEventListener('change', function () {
+            if (own_select.value == 2) {
+                own_no.style.display = 'flex';
+                own_yes.style.display = 'none';
+            } else {
+                own_no.style.display = 'none';
+                own_yes.style.display = 'flex';
+            }
+        });
+
+        contract_select.addEventListener('change', function () {
+            if (contract_select.value == 2) {
+                document.querySelector('.alienationValue-field').style.display = 'none';
+            } else {
+                document.querySelector('.alienationValue-field').style.display = 'block';
+            }
+        });
+
+        function calculateIfRelative(number){
+            if(number < 10000000) return ((number/100)*0.1) + 23000 + 5000
+            else return ((number/100)*0.2) + 3000 + 5000
+        }
+
+        function calculateIfNotRelative(number){
+            if(number < 1000000) return ((number/100)*0.4) + 3000 + 6000
+            else if (number > 1000000 && number < 10000000) return (((number-1000000)/100)*0.2) + 7000 + 6000
+            else return ((number-10000000/100)*0.1) + 25000 + 6000
+        }
+
+        calc_button.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            if (own_select.value == 1) {
+
+                let totalItens = parseInt(flat.value) + parseInt(non_residential_premises.value) + parseInt(land_plot.value) + parseInt(house.value) + parseInt(non_residential_building.value);
+                console.log(totalItens);
+                let cValue = parseInt(cadastral_value_2.value);
+                let bSValue = parseInt(beingSold_value.value);
+
+                if(relatives_select.value == 1){
+                    let result_cadastral_value= calculateIfRelative(bSValue);
+                    let result_beingSold_value = calculateIfRelative(cValue);
+                    if(totalItens > 3){
+                        result_cadastral_value = result_cadastral_value + ((totalItens - 3)*1000)
+                        result_beingSold_value = result_beingSold_value + ((totalItens - 3)*1000)
+                        if(totalItens > 10){
+                            cadastralValue = cadastralValue + 1000
+                        }
+                    }
+                    if(buyer_married.checked){
+                        result_cadastral_value = result_cadastral_value + 2000
+                    }
+                    if(sellerAcquired_property.checked){
+                        result_beingSold_value = result_beingSold_value + 2000
+                    }
+                    alert(`The cadastral value is ${result_cadastral_value} and the being sold value is ${result_beingSold_value}`)       
+                }
+                if (relatives_select.value == 2) {
+                    let result_cadastral_value= calculateIfNotRelative(bSValue);
+                    let result_beingSold_value = calculateIfNotRelative(cValue);
+                    if(totalItens > 3){
+                        result_cadastral_value = result_cadastral_value + ((totalItens - 3)*1000)
+                        result_beingSold_value = result_beingSold_value + ((totalItens - 3)*1000)
+                        if(totalItens > 10){
+                            cadastralValue = cadastralValue + 1000
+                        }
+                    }
+                    if(buyer_married.checked){
+                        result_cadastral_value = result_cadastral_value + 2000
+                    }
+                    if(sellerAcquired_property.checked){
+                        result_beingSold_value = result_beingSold_value + 2000
+                    }
+                    alert(`The cadastral value is ${result_cadastral_value} and the being sold value is ${result_beingSold_value}`)       
+                }
+            }
+
+            if (own_select.value == 2) {
+                if (contract_select.value == 1) {
+                    if(cadastral_value.value && alienation_value.value){
+                        let cadastralValue = parseInt(cadastral_value.value);
+                        let alienationValue = parseInt(alienation_value.value);
+                        let bigger_value = Math.max(cadastralValue, alienationValue);
+                        var value = (bigger_value/100)*0.5
+                    }else{
+                        alert('Please fill all fields');
+                    }
+                }
+
+                if (contract_select.value == 2) {
+                    if(cadastral_value.value){
+                        let cadastralValue = parseInt(cadastral_value.value);
+                        var value = (cadastralValue/100)*0.5
+                    }else{
+                        alert('Please fill all fields');
+                    }
+                }
+                if (value < 300) {
+                    value = 300;
+                }
+                if (value > 3000) {
+                    value = 3000;
+                }
+                if (value > 20000) {
+                    value = 20000;
+                }
+                if(buyer_married.checked){
+                    value = value + 2000
+                    }
+                if(sellerAcquired_property.checked){
+                    value = value + 2000
+                    }
+                var property_value = value + 6400;
+                alert('The value of the property is: ' + property_value);
+            }
+        });     
+    </script>
+</body>
+
+</html>
